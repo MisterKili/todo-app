@@ -83,8 +83,7 @@ class TaskGroupServiceTest {
 
         // then
         boolean isDoneAfter = group.isDone();
-
-//        assertThat(isDoneBefore == !isDoneAfter);
+        
         assertThat(isDoneAfter).isEqualTo(!isDoneBefore);
     }
 }

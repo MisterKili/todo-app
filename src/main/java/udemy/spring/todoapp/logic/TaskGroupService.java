@@ -14,8 +14,8 @@ import udemy.spring.todoapp.model.projection.GroupWriteModel;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-@RequestScope   //serwis powstaje przy requescie. jeden dla wszystkich zadan w requescie
+//@Service
+//@RequestScope   //serwis powstaje przy requescie. jeden dla wszystkich zadan w requescie
 public class TaskGroupService {
 
     private TaskGroupRepository repository;
