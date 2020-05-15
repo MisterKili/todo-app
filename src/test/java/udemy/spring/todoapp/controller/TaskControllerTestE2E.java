@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.setAllowComparingPrivateFields;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TaskControllerTestE2E {
@@ -51,8 +52,8 @@ class TaskControllerTestE2E {
         Task result = restTemplate.getForObject("http://localhost:" + port + "/tasks/" + id, Task.class);
 
         // then
-        assertThat(result.getId()).isEqualTo(id);
-        assertThat(result.getDeadline()).isEqualTo(task.getDeadline());
-        assertThat(result.getDescription()).isEqualTo(task.getDescription());
+        assertThat(result)
+                .usingRecursiveComparison()
+                .isEqualTo(task);
     }
 }
