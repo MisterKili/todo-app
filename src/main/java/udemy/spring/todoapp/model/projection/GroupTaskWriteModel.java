@@ -1,10 +1,11 @@
 package udemy.spring.todoapp.model.projection;
 
 import udemy.spring.todoapp.model.Task;
+import udemy.spring.todoapp.model.TaskGroup;
 
 import java.time.LocalDateTime;
 
-class GroupTaskWriteModel {
+public class GroupTaskWriteModel {
     private String description;
     private LocalDateTime deadline;
 
@@ -24,8 +25,7 @@ class GroupTaskWriteModel {
         this.deadline = deadline;
     }
 
-    public Task toTask() {
-        var result = new Task(description, deadline);
-        return result;
+    Task toTask(TaskGroup group) {
+        return new Task(description, deadline, group);
     }
 }

@@ -6,6 +6,7 @@ import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
 @Embeddable
+public
 class Audit {
 
     private LocalDateTime createdOn;

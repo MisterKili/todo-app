@@ -6,9 +6,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
+import udemy.spring.todoapp.model.Audit;
 import udemy.spring.todoapp.model.Task;
+import udemy.spring.todoapp.model.TaskGroup;
 import udemy.spring.todoapp.model.TaskRepository;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,5 +39,20 @@ class TaskControllerTestE2E {
 
         // then
         assertThat(result).hasSize(initial + 2);
+    }
+
+    @Test
+    void httpGet_returnsAddedTask() {
+        // given
+        var task = repo.save(new Task("foo", LocalDateTime.now()));
+        int id = task.getId();
+
+        // when
+        Task result = restTemplate.getForObject("http://localhost:" + port + "/tasks/" + id, Task.class);
+
+        // then
+        assertThat(result.getId()).isEqualTo(id);
+        assertThat(result.getDeadline()).isEqualTo(task.getDeadline());
+        assertThat(result.getDescription()).isEqualTo(task.getDescription());
     }
 }
