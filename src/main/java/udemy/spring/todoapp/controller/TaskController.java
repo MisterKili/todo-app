@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import udemy.spring.todoapp.model.Task;
 import udemy.spring.todoapp.model.TaskRepository;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -33,6 +36,12 @@ class TaskController {
         return ResponseEntity.ok(repository.findAll());
     }
 
+    @GetMapping("/test")
+    void oldFashionedWay(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        req.getParameter("foo");
+        res.getWriter().println("test old-fashioned way");
+    }
+
     @GetMapping
     ResponseEntity<List<Task>> readAllTasks(Pageable page){
         logger.info("Custom pageable");
@@ -44,6 +53,14 @@ class TaskController {
 //
 //    @GetMapping(path = "/search/done", produces = MediaType.TEXT_XML_VALUE)
 //    String bar(){return "";}
+
+    @GetMapping("/search/done")
+    ResponseEntity<List<Task>> readDoneTasks(@RequestParam(defaultValue = "true") boolean state) {
+        return ResponseEntity.ok(
+                repository.findByDone(state)
+        );
+    }
+
 
     @PutMapping(path = "/{id}")
     ResponseEntity<?> updateTask(@PathVariable int id, @RequestBody @Valid Task toUpdate) {
