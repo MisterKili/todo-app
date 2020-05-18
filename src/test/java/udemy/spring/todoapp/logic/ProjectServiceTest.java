@@ -180,6 +180,11 @@ class ProjectServiceTest {
         }
 
         @Override
+        public boolean existsById(Integer id) {
+            return false;
+        }
+
+        @Override
         public boolean existsByDoneIsFalseAndProject_Id(Integer projectId) {
             return map.values().stream()
                     .filter(group -> !group.isDone())

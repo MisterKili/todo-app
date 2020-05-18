@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -37,11 +38,18 @@ class TaskController {
 //        return ResponseEntity.ok(repository.findAll());
     }
 
-    @GetMapping("/test")
-    void oldFashionedWay(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        req.getParameter("foo");
-        res.getWriter().println("test old-fashioned way");
+    @GetMapping(path = "/{id}")
+    ResponseEntity<Task> readTask(@PathVariable int id) {
+        return repository.findById(id)
+                .map(task -> ResponseEntity.ok(task))
+                .orElse(ResponseEntity.notFound().build());
     }
+
+//    @GetMapping("/test")
+//    void oldFashionedWay(HttpServletRequest req, HttpServletResponse res) throws IOException {
+//        req.getParameter("foo");
+//        res.getWriter().println("test old-fashioned way");
+//    }
 
     @GetMapping
     ResponseEntity<List<Task>> readAllTasks(Pageable page){
@@ -62,6 +70,11 @@ class TaskController {
         );
     }
 
+    @GetMapping("/today")
+    ResponseEntity<List<Task>> readTasksForToday() {
+        return ResponseEntity.ok(repository.findAllForToday());
+    }
+
 
     @PutMapping(path = "/{id}")
     ResponseEntity<?> updateTask(@PathVariable int id, @RequestBody @Valid Task toUpdate) {
@@ -74,13 +87,6 @@ class TaskController {
                     repository.save(task);
                 });
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping(path = "/{id}")
-    ResponseEntity<Task> readTask(@PathVariable int id) {
-        return repository.findById(id)
-                .map(task -> ResponseEntity.ok(task))
-                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping

@@ -16,6 +16,7 @@ import udemy.spring.todoapp.model.TaskRepository;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.*;
 
 @Configuration
@@ -65,6 +66,16 @@ class TestConfiguration {
             @Override
             public List<Task> findByDone(boolean done) {
                 return null;
+            }
+
+            @Override
+            public List<Task> findAllByGroup_Id(Integer groupId) {
+                return List.of();
+            }
+
+            @Override
+            public List<Task> findAllForToday() {
+                return List.of();
             }
 
             @Override
