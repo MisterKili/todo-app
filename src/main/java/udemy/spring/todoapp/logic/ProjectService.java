@@ -5,6 +5,7 @@ import udemy.spring.todoapp.model.*;
 import udemy.spring.todoapp.model.projection.GroupReadModel;
 import udemy.spring.todoapp.model.projection.GroupTaskWriteModel;
 import udemy.spring.todoapp.model.projection.GroupWriteModel;
+import udemy.spring.todoapp.model.projection.ProjectWriteModel;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,8 +32,8 @@ public class ProjectService {
         return result;
     }
 
-    public Project create(Project entity) {
-        var result = projectRepository.save(entity);
+    public Project save(final ProjectWriteModel toSave) {
+        var result = projectRepository.save(toSave.toProject());
         return result;
     }
 
@@ -55,7 +56,7 @@ public class ProjectService {
                             )
                             .collect(Collectors.toSet())
                     );
-                    return taskGroupService.createGroup(targetGroup);
+                    return taskGroupService.createGroup(targetGroup, project);
                 }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found"));
     }
 
