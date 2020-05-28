@@ -54,6 +54,7 @@ class TaskControllerTestE2E {
         // then
         assertThat(result)
                 .usingRecursiveComparison()
+                .ignoringFields("audit")
                 .isEqualTo(task);
     }
 }
