@@ -10,7 +10,6 @@ public
 class Audit {
 
     private LocalDateTime createdOn;
-//    public LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
     @PrePersist
