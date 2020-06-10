@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/awsm.css/dist/awsm.min.css">
-    <title>Todo app</title>
+    <title>Title</title>
 </head>
 <body>
 <header>
@@ -12,7 +10,7 @@
     <p>Doing all the things!</p>
     <nav>
         <ul>
-            <li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')">
                 <a href="/projects">Projekty</a>
             </li>
             <li>
@@ -20,6 +18,9 @@
             </li>
             <li>
                 <a href="/tasks.html">Zadania</a>
+            </li>
+            <li>
+                <a href="/logout">Wyloguj</a>
             </li>
         </ul>
     </nav>

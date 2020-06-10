@@ -2,6 +2,8 @@ package udemy.spring.todoapp.controller;
 
 import io.micrometer.core.annotation.Timed;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,10 +14,12 @@ import udemy.spring.todoapp.model.ProjectStep;
 import udemy.spring.todoapp.model.projection.ProjectWriteModel;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping("/projects")
 class ProjectController {
 
@@ -26,11 +30,13 @@ class ProjectController {
     }
 
     @GetMapping
-    String showProjects(Model model) {
-        var projectToEdit = new ProjectWriteModel();
-        projectToEdit.setDescription("test");
-        model.addAttribute("project", projectToEdit);
-        return "projects";
+    String showProjects(Model model, Authentication auth) {     // jesli nie ma zadnego auth to NullPointerException
+//        if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            var projectToEdit = new ProjectWriteModel();
+            model.addAttribute("project", projectToEdit);
+            return "projects";
+//        }
+//        return "index";
     }
 
     @PostMapping
